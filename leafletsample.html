@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Leaflet Sample</title>
+		<!-- <link rel="stylesheet" type="text/css" href="style/reset.css"> -->
+		<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
+		<script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
+		<style>
+
+			div#map{
+				width: 95vw;
+				height: 95vh;
+			}
+
+		</style>
+	</head>
+
+	<body>
+
+		<div id="map"></div>
+
+		<script type="text/javascript">
+
+		function getGeoIP(callback){
+			var x = new XMLHttpRequest();
+			x.open('GET', 'https://geoip.nekudo.com/api/', false);
+			x.send();
+			var res = x.responseText;
+			var geoip = JSON.parse(res);
+			if(callback){
+				callback(geoip);
+			}
+		}
+
+		function main(geoip){
+			var coords = geoip.location;
+			var zoom = 13;
+			var map = L.map('map').setView([coords.latitude, coords.longitude], zoom);
+			var tile = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+				attribution: 'OpenStreetMap'
+			});
+			var marker = L.marker([coords.latitude, coords.longitude]);
+			tile.addTo(map);
+			marker.addTo(map);
+			marker.bindPopup('<h4>Your Location</h4>').openPopup();
+		}
+
+		getGeoIP(main);
+
+		/* Quick Start: http://leafletjs.com/examples/quick-start.html */
+
+		</script>
+		
+	</body>
+</html>
