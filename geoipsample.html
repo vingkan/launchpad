@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>GeoIP Sample</title>
+		<style>
+
+
+
+		</style>
+	</head>
+
+	<body>
+
+		<h1>Geolocation/IP Sample</h1>
+		<ul id="out"></ul>
+
+		<script type="text/javascript">
+
+		function getGeoIP(){
+			var x = new XMLHttpRequest();
+			x.open('GET', 'https://geoip.nekudo.com/api/', false);
+			x.send();
+			var res = x.responseText;
+			var data = JSON.parse(res);
+			var out = document.getElementById('out');
+			out.innerHTML += '<li>' + 'City: ' + data.city + '</li>';
+			out.innerHTML += '<li>' + 'Country: ' + data.country.name + '</li>';
+			out.innerHTML += '<li>' + 'Code: ' + data.country.code + '</li>';
+			out.innerHTML += '<li>' + 'Latitude: ' + data.location.latitude + '</li>';
+			out.innerHTML += '<li>' + 'Longitude: ' + data.location.longitude + '</li>';
+			out.innerHTML += '<li>' + 'Time Zone: ' + data.location.time_zone + '</li>';
+			out.innerHTML += '<li>' + 'IP: ' + data.ip + '</li>';
+		}
+
+		getGeoIP();
+
+		</script>
+		
+	</body>
+</html>
